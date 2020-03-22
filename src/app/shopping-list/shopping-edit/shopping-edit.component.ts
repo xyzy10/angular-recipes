@@ -13,7 +13,9 @@ export class ShoppingEditComponent implements OnInit {
   }
 
   onAddItem(nameInput:HTMLInputElement, numberInput:HTMLInputElement) {
-    console.log('nameInput: ' + nameInput.value);
-    console.log('numberInput: ' + numberInput.value);
+    this.itemAdded.emit({
+      name: nameInput.value,
+      amount: Number(numberInput.value)
+    });
   }
 }
