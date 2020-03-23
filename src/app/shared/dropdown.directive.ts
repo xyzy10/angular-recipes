@@ -4,30 +4,19 @@ import { Directive, Input, OnInit, HostListener, Renderer2, ElementRef, HostBind
   selector: '[appDropdown]'
 })
 export class DropdownDirective implements OnInit {
-  @Input() state:string = '';
-  defaultClass: string = 'open';
-  isOpen: boolean = false;
-
-
-  // @HostBinding()
+  @Input() expand:string = '';
+  toggleClass: string = 'open';
+  
+  @HostBinding('class') cssClass: string = this.toggleClass; // the user input.
 
   @HostListener('click') click (eventData: Event) {
-    this.isOpen = !this.isOpen;
-    if (this.isOpen) {
-      this.renderer.addClass(this.eleRef.nativeElement, this.defaultClass);
-    } else {
-      this.renderer.removeClass(this.eleRef.nativeElement, this.defaultClass);
-    }
+    this.cssClass = (this.cssClass.length) ? '' : this.toggleClass;
   }
 
   constructor(private eleRef: ElementRef, private renderer: Renderer2) { }
 
   ngOnInit() {
-    if (this.state === this.defaultClass) {
-      this.isOpen = true;
-      this.renderer.addClass(this.eleRef.nativeElement, this.defaultClass);
-    }
+    // Setup default behavior with input state.
+    this.cssClass = Boolean(this.expand) ? this.toggleClass : '';
   }
-
-  
 }
